@@ -73,7 +73,8 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
     return
     end
 
-    subroutine read_gobs_amsr2_new(icase,ifreq,iscan,icel,g_compact)
+    
+    subroutine read_gobs_amsr2_v2(icase,ifreq,iscan,icel,g_compact)
 
         use, intrinsic :: iso_fortran_env, only: int16, int32, real32, real64
         use gain_pattern, only: CompactGrid, read_gain_compact_grid, normalize_compact_grid,zero_compact_grid
@@ -88,23 +89,16 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
         type(CompactGrid),intent(out) :: g_compact
 
         character(80) filename
-        integer(int16) ilat2x,ilon2x
-        integer(int32) :: i
-        !real(real64) :: gobsx
-        !real(real64) xsum
-    
         integer :: ioerr
         character(len =80) :: iomsg
     
-        integer :: beamwidth_km_int = 30
-    
         if(icase.eq.1) then
-            write(filename,9001)beamwidth_km_int,iscan,icel
-            9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains/circular_',i2.2,'km/s',i2.2,'c',i4.4,'.dat')
+            write(filename,9001)ifreq,iscan,icel
+            9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
     
         else
             write(filename,9002)ifreq,iscan,icel
-            9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+            9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
         endif
     
         open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
@@ -122,55 +116,6 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
         return
         end
 
-        subroutine read_gobs_amsr2_v2(icase,ifreq,iscan,icel,g_compact)
-
-            use, intrinsic :: iso_fortran_env, only: int16, int32, real32, real64
-            use gain_pattern, only: CompactGrid, read_gain_compact_grid, normalize_compact_grid,zero_compact_grid
-            implicit none
-        
-            
-            integer(int32),intent(in) :: icase        ! ==1 if target case
-            integer(int32),intent(in) :: ifreq        ! same as iband -- 1-8 for amsr2
-            integer(int32),intent(in) :: iscan        ! scan number
-            integer(int32),intent(in) :: icel         ! fov number
-    
-            type(CompactGrid),intent(out) :: g_compact
-    
-            character(80) filename
-            integer(int16) ilat2x,ilon2x
-            integer(int32) :: i
-            !real(real64) :: gobsx
-            !real(real64) xsum
-        
-            integer :: ioerr
-            character(len =80) :: iomsg
-        
-            integer :: beamwidth_km_int = 30
-        
-            if(icase.eq.1) then
-                write(filename,9001)ifreq,iscan,icel
-                9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
-        
-            else
-                write(filename,9002)ifreq,iscan,icel
-                9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
-            endif
-        
-            open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
-                        
-            if (ioerr /= 0) then
-                write(6,*) iomsg
-                error stop 1
-            endif
-        
-            call zero_compact_grid(g_compact)
-            call read_gain_compact_grid(3,g_compact)
-            call normalize_compact_grid(g_compact)
-            close(3)
-        
-            return
-            end
-
         subroutine read_gobs_amsr2_v3(icase,ifreq,iscan,icel,g_compact)
 
             use, intrinsic :: iso_fortran_env, only: int16, int32, real32, real64
@@ -186,13 +131,9 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
             type(CompactGrid),intent(out) :: g_compact
     
             character(80) filename
-            integer(int16) ilat2x,ilon2x
-            integer(int32) :: i
-        
+            
             integer :: ioerr
             character(len =80) :: iomsg
-        
-            integer :: beamwidth_km_int = 30
         
             if(icase.eq.1) then
                 error stop 'v3 for targets makes no sense'
@@ -233,16 +174,13 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
                 type(CompactGrid),intent(out) :: g_compact
         
                 character(100) filename
-                integer(int16) ilat2x,ilon2x
-                integer(int32) :: i
             
                 integer :: ioerr
                 character(len =80) :: iomsg
             
-                integer :: beamwidth_km_int = 30
-            
                 write(filename,9002)idiameter,ifreq,iscan,icel
-    9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/',i2.2,'km/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+                    9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/', &
+                                i2.2,'km/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
             
                 open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
                             

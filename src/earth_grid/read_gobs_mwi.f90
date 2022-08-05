@@ -10,7 +10,7 @@
     real(8) gobs(npixel_max,0:nobs_max)
     real(8) xsum
 
-    integer :: ioerr, lu, num_lines
+    integer :: ioerr, lu !, num_lines
     character(len=80) :: iomsg
     
 !     the targets are only for g11.

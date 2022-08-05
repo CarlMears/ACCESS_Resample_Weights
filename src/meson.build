@@ -26,9 +26,10 @@ if meson.get_compiler('fortran').get_argument_syntax() == 'gcc'
   add_project_arguments(
     # Always run the C pre-processor (for conditional compilation)
     '-cpp',
-    '-Wimplicit-interface',
+    #'-Wimplicit-interface',
     '-ffpe-trap=zero,overflow',
     '-fno-plt',
+    '-Wno-extra',
     # The code itself should already satisfy these next two, but this is
     # just to check that I didn't miss any
     '-fmodule-private',
@@ -145,7 +146,7 @@ executable('find_resampling_weights',
            sources : [
                 'earth_grid/find_resampling_weights.f90',
                 'earth_grid/amsr2_sensor_module.f90',
-                'earth_grid/read_gobs_mwi.f90', 
+                #'earth_grid/read_gobs_mwi.f90', 
                 'earth_grid/read_gobs_amsr2.f90',              
                 '../../common/src/math/trig_degrees.f90',
                 '../../common/src/simulation_param.f90',

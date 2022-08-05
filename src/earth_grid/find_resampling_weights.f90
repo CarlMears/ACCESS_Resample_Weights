@@ -4,7 +4,7 @@
     use, intrinsic :: iso_fortran_env, only: int8, int16, int32, real32, real64
     use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_finite
 
-    use simulation_param, only: NBAND,FOVS_PER_SCAN,NFREQ
+    !use simulation_param, only: NBAND,FOVS_PER_SCAN,NFREQ
     use simulation_param, only: set_simulation_params, SimulationParameterData_f
     use resampling_types, only: FootprintLocations,read_location_text_file
     use wgs84, only: distance_between_lon_lats
@@ -12,7 +12,7 @@
 
     !gain pattern has two types -- CompactGrid is a form where only on-zero elements are
     !stored.  FullGrid is the entire 2D array with zero elements
-    use gain_pattern, only: maxpts,nlon,nlat,CompactGrid,FullGrid
+    use gain_pattern, only: CompactGrid,FullGrid !,nlon,nlat,maxpts
     !some helper routines
     use gain_pattern, only: write_gain_full_grid,convert_to_full_Grid
     use gain_pattern, only: zero_full_grid,find_mean_grid_location
@@ -20,20 +20,21 @@
     use gain_pattern, only: compute_overlap_full_compact
     implicit none
     
-    integer(int32), parameter:: npixel_max=maxpts  !max number of pixels saved for each observation footprint
+
+    !integer(int32), parameter:: npixel_max=maxpts  !max number of pixels saved for each observation footprint
     integer(int32), parameter:: nobs_max=1500      !max number of obs (source footprints) saved
                                                    !probably will need to be bigger for larger fooprints
      
     character(120) filename1,target_location_file,source_location_file,weight_file, lisT_file!,filename2,
    
-    integer(int16) :: ilat2(npixel_max,0:nobs_max)
-    integer(int16) :: ilon2(npixel_max,0:nobs_max)   !list of ilat,ilon locations for footprint data
-    integer(int32) npixel(0:nobs_max)                ! not sure yet
+    !integer(int16) :: ilat2(npixel_max,0:nobs_max)
+    !integer(int16) :: ilon2(npixel_max,0:nobs_max)   !list of ilat,ilon locations for footprint data
+    !!integer(int32) npixel(0:nobs_max)                ! not sure yet
     
     integer(int32) iscansv(nobs_max),icelsv(nobs_max),iobs_numsv(nobs_max)                         ! not sure yet
     integer(int32) iscan,icel,nobs,iobs,jobs,ipixel        ! various incideces
     integer(int32) ierror,iobssv
-    integer(int32) ifreq,itrg
+    integer(int32) ifreq !,itrg
 
     integer(int16) ilat,ilon
   
@@ -44,7 +45,7 @@
     real(real64), allocatable :: g_everywhere(:,:)  !array to store elements of g to prevent recalculation
     real(real64) denom,xcoef,xmax,psum(0:6),smooth_fac,delta_gain
       
-    integer(int32) kscan,icel_trg
+    !integer(int32) kscan,icel_trg
 
     type(CompactGrid),dimension(0:nobs_max) :: gain_array
 
@@ -68,7 +69,7 @@
 
     !summary stats for each target
     !integer(int32),dimension(485,2) :: n_obs_summary
-    real(real64),dimension(485,2) :: check_invert_summary,tot_a_summary,tot_sqr_a_summary
+    real(real64),dimension(485,2) :: tot_a_summary,tot_sqr_a_summary !,check_invert_summary
  
     
 
