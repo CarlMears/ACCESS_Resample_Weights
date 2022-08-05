@@ -160,13 +160,13 @@ c     not sure if i need this, g may already be symmetric
 
 	testg=matmul(g,g_inv)
 	do iobs=1,nobs
-	testg(iobs,iobs)=testg(iobs,iobs)-1
-      enddo
+		testg(iobs,iobs)=testg(iobs,iobs)-1
+    enddo
 
-      xwork=matmul(g_inv,u)
+    xwork=matmul(g_inv,u)
 	denom=dot_product(u,xwork)
 
-      xwork=matmul(g_inv,v)
+    xwork=matmul(g_inv,v)
 	xcoef=dot_product(u,xwork)							    
 
 	xwork=v + (1-xcoef)*u/denom
