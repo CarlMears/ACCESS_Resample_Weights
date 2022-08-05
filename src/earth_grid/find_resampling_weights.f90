@@ -21,7 +21,7 @@
     implicit none
     
     integer(int32), parameter:: npixel_max=maxpts  !max number of pixels saved for each observation footprint
-    integer(int32), parameter:: nobs_max=1000      !max number of obs (source footprints) saved
+    integer(int32), parameter:: nobs_max=1500      !max number of obs (source footprints) saved
                                                    !probably will need to be bigger for larger fooprints
      
     character(120) filename1,target_location_file,source_location_file,weight_file, lisT_file!,filename2,
