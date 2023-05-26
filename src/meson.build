@@ -34,6 +34,7 @@ if meson.get_compiler('fortran').get_argument_syntax() == 'gcc'
     # just to check that I didn't miss any
     '-fmodule-private',
     '-fimplicit-none',
+    #'-fopenmp',
     language : 'fortran')
 
   if meson.version().version_compare('<0.53')
@@ -142,11 +143,49 @@ endif
 log_lib = static_library('clogger', sources : ['../../sim_gen/src/rss/log.c'])
 gzip = static_library('gzip', sources : ['syspgm/gzip_inflate.c','syspgm/zlib.f90'], dependencies: zlib)
 
-executable('find_resampling_weights',
+
+
+executable('find_resampling_weights_precompute_g',
            sources : [
-                'earth_grid/find_resampling_weights.f90',
+                'earth_grid/find_resampling_weights_precompute_g.f90',
                 'earth_grid/amsr2_sensor_module.f90',
                 #'earth_grid/read_gobs_mwi.f90', 
+                'earth_grid/read_gobs_amsr2.f90',              
+                '../../common/src/math/trig_degrees.f90',
+                '../../common/src/simulation_param.f90',
+                '../../common/src/resample/resampling_types.f90',
+                '../../common/src/gain_patterns.f90',
+                '../../common/src/geoloc/wgs84.f90',
+                '../../common/src/math/svd_invert.f90',
+                '../../common/src/math/pythag.f90'
+           ],
+           link_with : [gzip,log_lib],
+           dependencies : [netcdff,zlib],
+           install : true)
+
+executable('find_resampling_weights_precompute_g_ssmis',
+           sources : [
+                'earth_grid/find_resampling_weights_precompute_g_ssmis.f90',
+                'earth_grid/amsr2_sensor_module.f90',
+                #'earth_grid/read_gobs_mwi.f90', 
+                'earth_grid/ssmis_gains.f90',              
+                '../../common/src/math/trig_degrees.f90',
+                '../../common/src/simulation_param.f90',
+                '../../common/src/resample/resampling_types.f90',
+                '../../common/src/gain_patterns.f90',
+                '../../common/src/geoloc/wgs84.f90',
+                '../../common/src/math/svd_invert.f90',
+                '../../common/src/math/pythag.f90'
+           ],
+           link_with : [gzip,log_lib],
+           dependencies : [netcdff,zlib],
+           install : true)
+
+executable('calc_g_everywhere',
+           sources : [
+                'earth_grid/calc_g_everywhere.f90',
+                'earth_grid/amsr2_sensor_module.f90',
+                'earth_grid/ssmis_gains.f90', 
                 'earth_grid/read_gobs_amsr2.f90',              
                 '../../common/src/math/trig_degrees.f90',
                 '../../common/src/simulation_param.f90',

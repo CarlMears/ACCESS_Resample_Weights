@@ -191,8 +191,6 @@
  
         do 200 iscan=1,numscan
 
-            !    if(iscan_flag(iscan).ne.0) cycle
-
             iflagx=iscan_flag(iscan)
             iflagx=ibclr(iflagx,10)
             if(iflagx.ne.0) cycle

@@ -86,7 +86,7 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
         integer(int32),intent(in) :: iscan        ! scan number
         integer(int32),intent(in) :: icel         ! fov number
 
-        type(CompactGrid),intent(out) :: g_compact
+        type(CompactGrid),intent(inout) :: g_compact
 
         character(80) filename
         integer :: ioerr
@@ -125,10 +125,10 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
             
             integer(int32),intent(in) :: icase        ! ==1 if target case
             integer(int32),intent(in) :: ifreq        ! same as iband -- 1-8 for amsr2
-            integer(int32),intent(in) :: iscan        ! scan number
-            integer(int32),intent(in) :: icel         ! fov number
+            integer(int16),intent(in) :: iscan        ! scan number
+            integer(int16),intent(in) :: icel         ! fov number
     
-            type(CompactGrid),intent(out) :: g_compact
+            type(CompactGrid),intent(inout) :: g_compact
     
             character(80) filename
             
@@ -171,7 +171,7 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
                 integer(int32),intent(in) :: iscan        ! scan number
                 integer(int32),intent(in) :: icel         ! fov number
         
-                type(CompactGrid),intent(out) :: g_compact
+                type(CompactGrid),intent(inout) :: g_compact
         
                 character(100) filename
             
