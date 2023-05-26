@@ -1,4 +1,4 @@
-# MWI simulator project
+# ACCESS Resample Weigths project
 #
 # Note that some suggested examples include:
 #
@@ -7,9 +7,7 @@
 # meson setup -D b_sanitize=address,undefined build_debug_sanitize/ src/
 # meson setup --buildtype release -D b_lto=true build_release_lto/ src/
 
-# removed this from below:           'buildtype=debugoptimized',
-
-project('mwi_sim',
+project('Resample Weights for ACCESS',
         'fortran', 'c', 'cpp',
         version : '0.1',
         default_options : [
@@ -143,13 +141,10 @@ endif
 log_lib = static_library('clogger', sources : ['../../sim_gen/src/rss/log.c'])
 gzip = static_library('gzip', sources : ['syspgm/gzip_inflate.c','syspgm/zlib.f90'], dependencies: zlib)
 
-
-
 executable('find_resampling_weights_precompute_g',
            sources : [
                 'earth_grid/find_resampling_weights_precompute_g.f90',
                 'earth_grid/amsr2_sensor_module.f90',
-                #'earth_grid/read_gobs_mwi.f90', 
                 'earth_grid/read_gobs_amsr2.f90',              
                 '../../common/src/math/trig_degrees.f90',
                 '../../common/src/simulation_param.f90',
@@ -167,7 +162,6 @@ executable('find_resampling_weights_precompute_g_ssmis',
            sources : [
                 'earth_grid/find_resampling_weights_precompute_g_ssmis.f90',
                 'earth_grid/amsr2_sensor_module.f90',
-                #'earth_grid/read_gobs_mwi.f90', 
                 'earth_grid/ssmis_gains.f90',              
                 '../../common/src/math/trig_degrees.f90',
                 '../../common/src/simulation_param.f90',
@@ -198,109 +192,3 @@ executable('calc_g_everywhere',
            link_with : [gzip,log_lib],
            dependencies : [netcdff,zlib],
            install : true)
-
-
-# -----------------------
-
-#executable('earth_grid_resample',
-#           sources : [
-#               'earth_grid/find_resampling_weights.f90',
-#               'earth_grid/read_gobs_amsre.f90',
-#               'earth_grid/read_gobs_mwi.f90',
-#               'earth_grid/invert_matrix.f90',
-#               'syspgm/get_cmd_arg.f90',
-#               '../../sim_gen/src/rss/simulation_param.f90',
-#           ],
-#           #link_with : [log_lib, lock_lib],
-#           dependencies : netcdff,
-#           install : true)
-
-#executable('find_gains',
-#           sources : [
-#                'earth_grid/find_gains.f90',
-#                'earth_grid/amsre_l2_module_v04.f90',
-#                'syspgm/get_cmd_arg.f90',
-#                '../../sim_gen/src/rss/simulation_param.f90',
-#                'earth_grid/filename_routines.f90',
-
-#                'syspgm/gzip.f',
-#                'syspgm/systime.f',                  
-#                'syspgm/fd_time87.f',
-#                'syspgm/time87.for',              
-#                'syspgm/xtime87.f',
-#           ],
-#           #link_with : [log_lib, lock_lib],
-#           dependencies : netcdff,
-#           install : true)
-#
-# executable('find_AMSR2_target_gains',
-#            sources : [
-#                 'earth_grid/filename_routines.f90',
-#                 'earth_grid/find_amsr2_target_gains.f90',
-#                 'earth_grid/amsr2_sensor_module.f90',
-#                 'earth_grid/fd_gain_targets.f90',
-#                 '../../common/src/math/math_routines.f90',
-#                 '../../common/src/math/trig_degrees.f90',
-#                 '../../common/src/get_cmd_arg.f90',
-#                 '../../common/src/simulation_param.f90',
-#                 '../../common/src/tdr_io.f90',
-#                 '../../common/src/io_nc.f90', 
-# #                '../../common/src/gain_patterns.f90',
-#                 '../../common/src/geoloc/wgs84.f90',
-#                 '../../common/src/geoloc/time_conversions.f90',
-#                 '../../common/src/geoloc/time_conversions_extra.f90',
-# #               '../../common/src/geoloc/lat_lon_to_distance.f90',
-#                 '../../common/src/geoloc/pre_nut_routines.f90',
-#                 '../../common/src/geoloc/faraday_angle.f90',
-#                 '../../common/src/geoloc/geomag.f90',
-#                 '../../common/src/geoloc/geolocation_types.f90',
-#                 '../../common/src/geoloc/geolocation_types.f90',
-#                 '../../common/src/mwsdps_constants.f90',
-#                 '../../common/src/geoloc/ntcmgl.f90',
-#                 '../../common/src/geoloc/dem.f90',
-#                 '../../common/src/geoloc/geolocation.f90',
-#                 '../../common/src/geoloc/geolocation_extra_routines.f90',
-#                 '../../common/src/geoloc/geolocation_core_routines.f90',
-#                 '../../common/src/geoloc/geolocation_aux.f90',
-#                 '../../common/src/geoloc/quaternion_routines.f90',
-#            ],
-#            link_with : [gzip],
-#            dependencies : [netcdff,zlib],
-#            install : true)
-
-# executable('find_AMSR2_source_gains',
-#            sources : [
-#                 'earth_grid/filename_routines.f90',
-#                 'earth_grid/find_amsr2_source_gains.f90',
-#                 'earth_grid/amsr2_sensor_module.f90',
-#                 'earth_grid/fd_gain_targets.f90',
-#                 '../../common/src/math/math_routines.f90',
-#                 '../../common/src/math/trig_degrees.f90',
-#                 '../../common/src/get_cmd_arg.f90',
-#                 '../../common/src/simulation_param.f90',
-#                 '../../common/src/tdr_io.f90',
-#                 '../../common/src/io_nc.f90', 
-# #                '../../common/src/gain_patterns.f90',
-#                 '../../common/src/geoloc/wgs84.f90',
-#                 '../../common/src/geoloc/time_conversions.f90',
-#                 '../../common/src/geoloc/time_conversions_extra.f90',
-# #               '../../common/src/geoloc/lat_lon_to_distance.f90',
-#                 '../../common/src/geoloc/pre_nut_routines.f90',
-#                 '../../common/src/geoloc/geolocation_core_routines.f90',
-#                 '../../common/src/geoloc/geolocation_aux.f90',
-#                 '../../common/src/geoloc/geolocation_types.f90',
-#                 '../../common/src/mwsdps_constants.f90',
-#                 '../../common/src/geoloc/faraday_angle.f90',
-#                 '../../common/src/geoloc/geomag.f90',
-# #               '../../common/src/geoloc/geolocation_types.f90',
-#                 '../../common/src/geoloc/ntcmgl.f90',
-#                 '../../common/src/geoloc/land_fraction.f90',
-#                 '../../common/src/mwsdps_logger.f90',
-#                 '../../common/src/geoloc/dem.f90',
-#                 '../../common/src/geoloc/mwi_geolocation.f90',
-#                 '../../common/src/geoloc/geolocation_extra_routines.f90',
-#                 '../../common/src/geoloc/quaternion_routines.f90',
-#            ],
-#            link_with : [gzip,log_lib],
-#            dependencies : [netcdff,zlib],
-#            install : true)
