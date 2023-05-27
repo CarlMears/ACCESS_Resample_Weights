@@ -93,19 +93,6 @@
     call set_simulation_params(trim(sensor_name),sensor_data)
 
     if (sensor_name .eq. 'AMSR2') then
-        write(list_file,9077) trim(sensor_name), footprint_size_int,ifreq
-        9077 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a, &
-                    '/resample_weights_v3/stats/summary_stats_circular_',i2.2,'_band_',i2.2,'.txt')
-    endif
-    if (sensor_name .eq. 'SSMIS') then
-        write(list_file,9078) trim(sensor_name),ksat,footprint_size_int,ifreq
-        9078 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a, &
-                    '/f',i2.2,'/resample_weights/stats/summary_stats_circular_',i2.2,'_band_',i2.2,'.txt')
-    endif
-
-    open(8,file=list_file, status='replace')
-
-    if (sensor_name .eq. 'AMSR2') then
         write(source_location_file,9023) trim(sensor_name),trim(sensor_name),ifreq
         9023 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a,'/source_gains_v2/locs/find_source_gain_',a,'_band_',i2.2,'_locs.txt')
         write(output_file,9033) trim(sensor_name),trim(sensor_name),ifreq

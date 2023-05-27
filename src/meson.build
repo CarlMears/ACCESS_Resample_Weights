@@ -1,4 +1,4 @@
-# ACCESS Resample Weigths project
+# ACCESS Resample Weights project
 #
 # Note that some suggested examples include:
 #
@@ -24,7 +24,6 @@ if meson.get_compiler('fortran').get_argument_syntax() == 'gcc'
   add_project_arguments(
     # Always run the C pre-processor (for conditional compilation)
     '-cpp',
-    #'-Wimplicit-interface',
     '-ffpe-trap=zero,overflow',
     '-fno-plt',
     '-Wno-extra',
@@ -32,7 +31,6 @@ if meson.get_compiler('fortran').get_argument_syntax() == 'gcc'
     # just to check that I didn't miss any
     '-fmodule-private',
     '-fimplicit-none',
-    #'-fopenmp',
     language : 'fortran')
 
   if meson.version().version_compare('<0.53')
