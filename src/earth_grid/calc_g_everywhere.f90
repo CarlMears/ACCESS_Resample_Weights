@@ -29,7 +29,7 @@
 
     implicit none
       
-    character(120) source_location_file,list_file,output_file,output_file_text
+    character(120) source_location_file,output_file,output_file_text
                         
     integer(int16) iscan1,icel1,iscan2,icel2      ! various incideces
     integer(int32) num_to_do,num_computed,num_found,num_loaded,num_written,source1,source2
@@ -57,7 +57,6 @@
     character(len=10) sensor_name
     type(SimulationParameterData_f) :: sensor_data
     type(FootprintLocations)        :: source_locs
-    integer(int32) :: footprint_size_int
 
     integer(int32) :: distance_error
     real(real64)   :: source1_lat,source2_lat,source1_lon,source2_lon
