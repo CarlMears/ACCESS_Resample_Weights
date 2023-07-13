@@ -1,5 +1,5 @@
 # Read Me for Fortran Code that calculates the resampling weights for brightness temperatures for the RSS ACCESS project
-The code in the this repository calculates the resampling weights for resampling swath-geomtry 
+The code in the this repository calculates the resampling weights for resampling swath-geometry 
 radiometer measurements onto circular footprints at specified locations in the swath geometry.
 
 The inputs are:
@@ -10,6 +10,7 @@ These are generated in python.
 So far, these have been generated for:
 * AMSR2
 * SSMIS
+* SSM/I
 
 The resampling calculation is broken into two parts.
 

@@ -136,7 +136,7 @@ else
   vcs_info.set('GIT_DATE', 'unknown')
 endif
 
-log_lib = static_library('clogger', sources : ['../../sim_gen/src/rss/log.c'])
+log_lib = static_library('clogger', sources : ['syspgm/log.c'])
 gzip = static_library('gzip', sources : ['syspgm/gzip_inflate.c','syspgm/zlib.f90'], dependencies: zlib)
 
 executable('find_resampling_weights_precompute_g',
@@ -144,6 +144,23 @@ executable('find_resampling_weights_precompute_g',
                 'earth_grid/find_resampling_weights_precompute_g.f90',
                 'earth_grid/amsr2_sensor_module.f90',
                 'earth_grid/read_gobs_amsr2.f90',              
+                'common/src/math/trig_degrees.f90',
+                'common/src/simulation_param.f90',
+                'common/src/resample/resampling_types.f90',
+                'common/src/gain_patterns.f90',
+                'common/src/geoloc/wgs84.f90',
+                'common/src/math/svd_invert.f90',
+                'common/src/math/pythag.f90'
+           ],
+           link_with : [gzip,log_lib],
+           dependencies : [netcdff,zlib],
+           install : true)
+
+executable('find_resampling_weights_precompute_g_ssmi',
+           sources : [
+                'earth_grid/find_resampling_weights_precompute_g_ssmi.f90',
+                'earth_grid/amsr2_sensor_module.f90',
+                'earth_grid/ssmi_gains.f90',              
                 'common/src/math/trig_degrees.f90',
                 'common/src/simulation_param.f90',
                 'common/src/resample/resampling_types.f90',
@@ -178,6 +195,7 @@ executable('calc_g_everywhere',
                 'earth_grid/calc_g_everywhere.f90',
                 'earth_grid/amsr2_sensor_module.f90',
                 'earth_grid/ssmis_gains.f90', 
+                'earth_grid/ssmi_gains.f90',
                 'earth_grid/read_gobs_amsr2.f90',              
                 'common/src/math/trig_degrees.f90',
                 'common/src/simulation_param.f90',

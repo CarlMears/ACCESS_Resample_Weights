@@ -137,7 +137,7 @@ contains
 
 
         do i = 1,num_grids_in_array
-            write(*,*) i
+
             call allocate_compact_grid(grid_array%grids(i),maxpts_in)
             call cpu_time(cpu_time_now)
             grid_array%last_time_accessed(i) = cpu_time_now
