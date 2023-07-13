@@ -139,9 +139,9 @@ endif
 log_lib = static_library('clogger', sources : ['syspgm/log.c'])
 gzip = static_library('gzip', sources : ['syspgm/gzip_inflate.c','syspgm/zlib.f90'], dependencies: zlib)
 
-executable('find_resampling_weights_precompute_g',
+executable('find_resampling_weights_precompute_g_amsr2',
            sources : [
-                'earth_grid/find_resampling_weights_precompute_g.f90',
+                'earth_grid/find_resampling_weights_precompute_g_amsr2.f90',
                 'earth_grid/amsr2_sensor_module.f90',
                 'earth_grid/read_gobs_amsr2.f90',              
                 'common/src/math/trig_degrees.f90',
