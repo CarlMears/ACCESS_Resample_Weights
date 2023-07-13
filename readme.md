@@ -14,9 +14,11 @@ So far, these have been generated for:
 
 The resampling uses a weighted average of the source footprints to closely approximate the
 target footprint.
+
 ![Equation 1](Eq1.PNG " ")
 
 The weights are calculated using the following equations:
+
 ![Equation 2-6](Eq2-6.PNG " ")
 
 Here the G<sub>i</sub>'s describe the source footprints, and the F<sub>i</sub>'s describe the target footprint.  We normalize the source footprints so that the u's are 1.0
