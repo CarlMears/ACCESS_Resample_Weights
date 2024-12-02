@@ -23,7 +23,7 @@ contains
         type(FootprintLocations), intent(out) :: locs
         integer(int32),intent(in)               :: num_skip
         integer :: ioerr, lu, i,num_lines
-        character(len=80) :: iomsg
+        character(len=140) :: iomsg
 
         integer(int32)    :: kscan,kfov,iband
         real(real64)     :: lat, lon
@@ -32,6 +32,7 @@ contains
             form='formatted', action='read', &
             iostat=ioerr, iomsg=iomsg)
 
+        print *,'opened ',filename
         ! read thru once to count lines
         do i = 1,1000000
             if (num_skip == 3) then

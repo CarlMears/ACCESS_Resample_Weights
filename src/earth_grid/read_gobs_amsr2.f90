@@ -32,11 +32,11 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
 
     if(icase.eq.1) then
         write(filename,9001)beamwidth_km_int,iscan,icel
-        9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains/circular_',i2.2,'km/s',i2.2,'c',i4.4,'.dat')
+        9001 format('/mnt/l/access/resampling/AMSR2/target_gains/circular_',i2.2,'km/s',i2.2,'c',i4.4,'.dat')
 
     else
         write(filename,9002)ifreq,iscan,icel
-        9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+        9002 format('/mnt/l/access/resampling/AMSR2/source_gains/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
     endif
 
     open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
@@ -94,11 +94,11 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
     
         if(icase.eq.1) then
             write(filename,9001)ifreq,iscan,icel
-            9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+            9001 format('/mnt/l/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
     
         else
             write(filename,9002)ifreq,iscan,icel
-            9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+            9002 format('/mnt/l/access/resampling/AMSR2/source_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
         endif
     
         open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
@@ -138,10 +138,10 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
             if(icase.eq.1) then
                 error stop 'v3 for targets makes no sense'
                 write(filename,9001)ifreq,iscan,icel
-                9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+                9001 format('/mnt/access/resampling/AMSR2/target_gains_v2/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
             else
                 write(filename,9002)ifreq,iscan,icel
-                9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/source_gains_v3/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+                9002 format('/mnt/l/access/resampling/AMSR2/source_gains_v3/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
             endif
         
             open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
@@ -179,7 +179,7 @@ subroutine read_gobs_amsr2(icase,npixel_max,nobs_max,ifreq,iscan,icel,iobs, npix
                 character(len =80) :: iomsg
             
                 write(filename,9002)idiameter,ifreq,iscan,icel
-                    9002 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/target_gains_v2/', &
+                    9002 format('/mnt/l/access/resampling/AMSR2/target_gains_v2/', &
                                 i2.2,'km/band_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
             
                 open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)

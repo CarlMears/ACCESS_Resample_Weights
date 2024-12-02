@@ -26,7 +26,7 @@ contains
         character(len =80) :: iomsg
     
         write(filename,9002)ksat,ifreq,iscan,icel
-        9002 format('/mnt/ops1p-ren/l/access/resampling/SSMI/f',i2.2,'/source_gains/freq_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
+        9002 format('/mnt/l/access/resampling/SSMI/f',i2.2,'/source_gains/freq_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
         !print *,filename
         open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)
                     
@@ -65,7 +65,7 @@ contains
         character(len =80) :: iomsg
     
         write(filename,9002)ksat,idiameter,ifreq,iscan,icel
-        9002 format('/mnt/ops1p-ren/l/access/resampling/SSMI/f',i2.2,'/target_gains/', &
+        9002 format('/mnt/l/access/resampling/SSMI/f',i2.2,'/target_gains/', &
                         i2.2,'km/freq_',i2.2,'/s',i2.2,'c',i3.3,'.dat')
         !print *,filename
         open(unit=3,file=filename, status='old',action='read',form='unformatted', access='stream',iostat=ioerr,iomsg=iomsg)

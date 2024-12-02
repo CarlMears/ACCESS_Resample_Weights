@@ -9,7 +9,7 @@
 
 project('Resample Weights for ACCESS',
         'fortran', 'c', 'cpp',
-        version : '0.1',
+        version : '0.2',
         default_options : [
           'buildtype=debug',
           'warning_level=3',
@@ -83,10 +83,14 @@ endif
 # indirectly used (though netCDF) but we need to do a version test to
 # see if we need to add in calls to flock(2) or not.
 if meson.version().version_compare('>=0.50')
-  zlib = dependency('zlib', language : 'c')
-  netcdf = dependency('netcdf', language : 'c')
-  netcdff = dependency('netcdf', language : 'fortran')
-  hdf5 = dependency('hdf5', language : 'c')
+  # zlib = dependency('zlib', language : 'c')
+  # netcdf = dependency('netcdf', language : 'c')
+  # netcdff = dependency('netcdf', language : 'fortran')
+  # hdf5 = dependency('hdf5', language : 'c')
+  zlib = dependency('zlib')
+  netcdf = dependency('netcdf')
+  netcdff = dependency('netcdf')
+  hdf5 = dependency('hdf5')
   hdf5_version = hdf5.version()
 else
   zlib = dependency('zlib')
@@ -105,8 +109,8 @@ else
   endif
 endif
 
-# -----------------------
-# Generate the version information
+#-----------------------
+#Generate the version information
 git = find_program('git', required : false)
 vcs_info = configuration_data()
 if git.found()
@@ -156,9 +160,43 @@ executable('find_resampling_weights_precompute_g_amsr2',
            dependencies : [netcdff,zlib],
            install : true)
 
+executable('find_resampling_weights_precompute_g_amsr2_89',
+           sources : [
+                'earth_grid/find_89_resampling_weights_precompute_g_amsr2.f90',
+                'earth_grid/amsr2_sensor_module.f90',
+                'earth_grid/read_gobs_amsr2.f90',              
+                'common/src/math/trig_degrees.f90',
+                'common/src/simulation_param.f90',
+                'common/src/resample/resampling_types.f90',
+                'common/src/gain_patterns.f90',
+                'common/src/geoloc/wgs84.f90',
+                'common/src/math/svd_invert.f90',
+                'common/src/math/pythag.f90'
+           ],
+           link_with : [gzip,log_lib],
+           dependencies : [netcdff,zlib],
+           install : true)
+
 executable('find_resampling_weights_precompute_g_ssmi',
            sources : [
                 'earth_grid/find_resampling_weights_precompute_g_ssmi.f90',
+                'earth_grid/amsr2_sensor_module.f90',
+                'earth_grid/ssmi_gains.f90',              
+                'common/src/math/trig_degrees.f90',
+                'common/src/simulation_param.f90',
+                'common/src/resample/resampling_types.f90',
+                'common/src/gain_patterns.f90',
+                'common/src/geoloc/wgs84.f90',
+                'common/src/math/svd_invert.f90',
+                'common/src/math/pythag.f90'
+           ],
+           link_with : [gzip,log_lib],
+           dependencies : [netcdff,zlib],
+           install : true)
+
+executable('find_resampling_weights_precompute_g_ssmi_85',
+           sources : [
+                'earth_grid/find_resampling_weights_precompute_g_ssmi_85.f90',
                 'earth_grid/amsr2_sensor_module.f90',
                 'earth_grid/ssmi_gains.f90',              
                 'common/src/math/trig_degrees.f90',
