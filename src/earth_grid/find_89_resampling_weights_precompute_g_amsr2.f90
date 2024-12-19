@@ -31,7 +31,7 @@
     
 
     !integer(int32), parameter:: npixel_max=maxpts  !max number of pixels saved for each observation footprint
-    integer(int32), parameter:: nobs_max=1500      !max number of obs (source footprints) saved
+    integer(int32), parameter:: nobs_max=3000      !max number of obs (source footprints) saved
                                                    !probably will need to be bigger for larger fooprints
      
     character(120) filename1,target_location_file,source_location_file,weight_file, lisT_file,g_precompute_file!,filename2, 
@@ -143,19 +143,24 @@
     call allocate_CompactGrid_Array_FAFO(gain_array,max_num_pts_per_source_footprint)
 
     distance_threshold = 2.0*footprint_size_int
+    if (footprint_size_int .eq. 70) then
+        print *,"Reducing distance threshold for 70 km footprints"
+        distance_threshold = 1.5*footprint_size_int
+    endif
     
     call set_simulation_params(trim(sensor_name),sensor_data)
 
-    write(list_file,9077) trim(sensor_name), footprint_size_int,ifreq
-    9077 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a, &
-                '/resample_weights_v3/stats/summary_stats_circular_',i2.2,'_band_',i2.2,'.txt')
+    write(list_file,9077) trim(sensor_name), footprint_size_int,footprint_size_int,ifreq
+    9077 format('/mnt/l/access/resampling/',a, &
+                '/resample_weights/circular_',i2.2,'km/stats/summary_stats_circular_',i2.2,'_band_',i2.2,'.txt')
+    print *,'Writing to ',list_file
     open(8,file=list_file, status='replace')
 
     write(target_location_file,9013) trim(sensor_name)
-    9013 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a,'/target_gains_v2/locs/find_target_gain_circular_30km.loc')
+    9013 format('/mnt/l/access/resampling/',a,'/target_gains_v2/locs/find_target_gain_circular_30km.loc')
 
     write(source_location_file,9023) trim(sensor_name),trim(sensor_name),ifreq
-    9023 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a,'/source_gains_v2/locs/find_source_gain_',a,'_band_',i2.2,'_locs.txt')
+    9023 format('/mnt/l/access/resampling/',a,'/source_gains_v3/locs/find_source_gain_',a,'_band_',i2.2,'_locs.txt')
     
     call read_location_text_file(target_location_file,target_locs,2)
     call read_location_text_file(source_location_file,source_locs,3)
@@ -164,7 +169,7 @@
 
     ! read in precomputed g everywhere
     write(g_precompute_file,9033) trim(sensor_name),trim(sensor_name),ifreq
-    9033 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a,'/source_gains_v3/g_everywhere/g_everywhere_',a,'_band_',i2.2,'.dat')
+    9033 format('/mnt/l/access/resampling/',a,'/source_gains_v3/g_everywhere/g_everywhere_',a,'_band_',i2.2,'.dat')
     open(unit=3, &
             file=g_precompute_file, &
             action='read',&
@@ -477,7 +482,7 @@
 
         !write out the resampled gain pattern
         write(filename1,9001)footprint_size_int,ifreq,target_scan_to_do,target_fov_to_do
-        9001 format('/mnt/ops1p-ren/l/access/resampling/AMSR2/resample_gains_v3/circular_',i2.2,&
+        9001 format('/mnt/l/access/resampling/AMSR2/resample_gains_v3/circular_',i2.2,&
                  'km/band_',i2.2,'/s',i2.2,'c',i4.4,'.dat')
 
         write(6,802) filename1
@@ -512,7 +517,7 @@
 
 
     write(weight_file,555) trim(sensor_name),footprint_size_int,ifreq
-    555 format('/mnt/ops1p-ren/l/ACCESS/resampling/',a,'/resample_weights_v3/circular_',i2.2,&
+    555 format('/mnt/l/access/resampling/',a,'/resample_weights/circular_',i2.2,&
         'km/resample_weights_band_',i2.2,'.dat')
 
     open(unit=5,file=weight_file, status='replace',action='write',form='unformatted', access='stream')

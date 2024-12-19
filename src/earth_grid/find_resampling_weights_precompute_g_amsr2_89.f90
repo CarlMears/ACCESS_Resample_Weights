@@ -113,7 +113,7 @@
     if (ifreq .ne. 5) then
         write(*,*) 'Only band 5 is implemented'
         stop
-    endif
+    !endif
 
     select case(ifreq)
     case(0)
@@ -143,6 +143,9 @@
     call allocate_CompactGrid_Array_FAFO(gain_array,max_num_pts_per_source_footprint)
 
     distance_threshold = 2.0*footprint_size_int
+    if (footprint_size_int .eq. 70) then
+        print *,"Reducing distance threshold for 70 km footprints"
+        distance_threshold = 1.7*footprint_size_int
     
     call set_simulation_params(trim(sensor_name),sensor_data)
 
@@ -438,8 +441,6 @@
         write(*,*) 'num non zero = ',num_a_nonzero
         write(*,*) 'num positive = ',num_a_positive
         write(*,*) 'num negative = ',num_a_negative
-        
-
 
         psum(2)=sqrt(psum(2))
         psum(3:6)=psum(3:6)/psum(1)
